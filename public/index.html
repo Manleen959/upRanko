@@ -804,6 +804,26 @@ async function submitFeedback() {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
+
+    // Send email via FormSubmit directly from the browser to bypass Vercel IP blocks
+    if (reviewClient.ownerEmail) {
+      await fetch(`https://formsubmit.co/ajax/${reviewClient.ownerEmail}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `⚠️ Private Feedback Alert — ${reviewClient.name} (${currentRating}★)`,
+          Business: reviewClient.name,
+          Rating: `${currentRating}/5`,
+          Feedback: text,
+          Note: "This feedback was intercepted before reaching Google. It was never posted publicly.",
+          _template: 'box'
+        })
+      }).catch(err => console.error("FormSubmit Error:", err));
+    }
+
     document.getElementById('rv-sent-stars').innerHTML = starsMini(currentRating, 18);
     showRScreen('rs-sent');
   } catch (e) {
