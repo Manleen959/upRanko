@@ -1,0 +1,96 @@
+{
+  "clients": [
+    {
+      "id": "a4bfaeec-1439-4043-a4a3-ca02dbfe972e",
+      "name": "tea hub",
+      "category": "model town ludhiana",
+      "googleUrl": "https://www.google.com/maps/place/Sacred+Mind+Infotech/@30.6823575,76.7409805,17z/data=!4m8!3m7!1s0x390feb65cd2efef1:0xf4d9344f0ce248b6!8m2!3d30.6823575!4d76.7435608!9m1!1b1!16s%2Fg%2F11x13j09lr?entry=ttu&g_ep=EgoyMDI2MDYwMy4xIKXMDSoASAFQAw%3D%3D",
+      "ownerEmail": "manleensingh204@gmail.com",
+      "ownerName": "manleen",
+      "color": "#06B6D4",
+      "createdAt": "2026-06-11T06:02:08.863Z",
+      "active": true
+    },
+    {
+      "id": "2903437b-e78e-47e1-8cda-ed979f542cd9",
+      "name": "sacred mind",
+      "category": "mohali",
+      "googleUrl": "https://www.google.com/maps/place/Sacred+Mind+Infotech/@30.6823575,76.7409805,17z/data=!4m8!3m7!1s0x390feb65cd2efef1:0xf4d9344f0ce248b6!8m2!3d30.6823575!4d76.7435608!9m1!1b1!16s%2Fg%2F11x13j09lr?entry=ttu&g_ep=EgoyMDI2MDYwMy4xIKXMDSoASAFQAw%3D%3D",
+      "ownerEmail": "manleensingh204@gmail.com",
+      "ownerName": "Birinder singh",
+      "color": "#F59E0B",
+      "createdAt": "2026-06-11T06:10:23.206Z",
+      "active": true
+    }
+  ],
+  "reports": [
+    {
+      "id": "rep-001",
+      "clientId": "demo-001",
+      "clientName": "The Coffee House",
+      "rating": 2,
+      "feedback": "Coffee was cold and staff was rude. Waited 20 minutes for a simple espresso.",
+      "createdAt": "2026-06-11T04:56:33.339Z",
+      "emailSent": true
+    },
+    {
+      "id": "rep-002",
+      "clientId": "demo-001",
+      "clientName": "The Coffee House",
+      "rating": 3,
+      "feedback": "Seating area was dirty. Tables were not cleaned for a long time.",
+      "createdAt": "2026-06-10T05:56:33.339Z",
+      "emailSent": true
+    },
+    {
+      "id": "8b00dbf9-3ca4-4fc9-a33e-a10a55bf034c",
+      "clientId": "a4bfaeec-1439-4043-a4a3-ca02dbfe972e",
+      "clientName": "tea hub",
+      "rating": 2,
+      "feedback": "bekar service",
+      "createdAt": "2026-06-11T06:02:42.982Z",
+      "emailSent": false,
+      "emailError": "No SMTP configured — see .env.example"
+    },
+    {
+      "id": "cea27727-c3e0-4d9b-aefa-d3d26e56ad69",
+      "clientId": "demo-001",
+      "clientName": "The Coffee House",
+      "rating": 2,
+      "feedback": "Terrible experience",
+      "createdAt": "2026-06-11T06:05:25.160Z",
+      "emailSent": true,
+      "emailError": null
+    },
+    {
+      "id": "5ae33f7e-e20c-424a-bd7c-7df6bb072321",
+      "clientId": "a4bfaeec-1439-4043-a4a3-ca02dbfe972e",
+      "clientName": "tea hub",
+      "rating": 1,
+      "feedback": "not worthy of time",
+      "createdAt": "2026-06-11T06:08:35.332Z",
+      "emailSent": true,
+      "emailError": null
+    },
+    {
+      "id": "6c40a42a-85ab-4a1d-9621-8ec48d980849",
+      "clientId": "2903437b-e78e-47e1-8cda-ed979f542cd9",
+      "clientName": "sacred mind",
+      "rating": 2,
+      "feedback": "not worthy of time",
+      "createdAt": "2026-06-11T06:10:40.476Z",
+      "emailSent": true,
+      "emailError": null
+    },
+    {
+      "id": "fd7466bd-777a-469b-82ef-16f1d9f8ec67",
+      "clientId": "demo-001",
+      "clientName": "The Coffee House",
+      "rating": 2,
+      "feedback": "Terrible experience",
+      "createdAt": "2026-06-11T06:11:12.901Z",
+      "emailSent": false,
+      "emailError": "This form needs Activation. We've sent you an email containing an 'Activate Form' link. Just click it and your form will be actived!"
+    }
+  ]
+}
