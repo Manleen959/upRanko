@@ -758,18 +758,9 @@ function clickStar(n) {
 function goToGoogleRedirect(n) {
   showRScreen('rs-redirect');
   document.getElementById('rv-redirect-stars').innerHTML = starsMini(n, 18);
-  let count = 3;
-  document.getElementById('rv-countdown').textContent = count;
-  clearInterval(countdownTimer);
-  countdownTimer = setInterval(() => {
-    count--;
-    const el = document.getElementById('rv-countdown');
-    if (el) el.textContent = count;
-    if (count <= 0) {
-      clearInterval(countdownTimer);
-      window.location.href = reviewClient.googleUrl;
-    }
-  }, 1000);
+  const el = document.getElementById('rv-countdown');
+  if (el) el.style.display = 'none';
+  window.location.href = reviewClient.googleUrl;
 }
 
 function goToBlockScreen(n) {
