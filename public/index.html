@@ -1,554 +1,1476 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Upranko — Smart Review System</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/tabler-icons.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upranko — Smart Review System</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-/* ── Reset & base ── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,sans-serif;background:#F7F6F3;color:#1A1917;min-height:100vh;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  <style>
+    /* ── Reset & base ── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-/* ── Variables ── */
-:root{
-  --gold:#F59E0B;--gold-dark:#D97706;--gold-light:#FEF3C7;--gold-pale:#FFFBEB;
-  --red:#DC2626;--red-light:#FEF2F2;--red-pale:#FFF5F5;
-  --green:#16A34A;--green-light:#F0FDF4;
-  --blue:#2563EB;--blue-light:#EFF6FF;
-  --surface:#FFFFFF;--surface2:#F9F8F6;--surface3:#F1F0EC;
-  --border:#E8E6E1;--border2:#D4D2CC;
-  --text1:#1A1917;--text2:#605E5A;--text3:#9C9A96;
-  --radius:12px;--radius-sm:8px;--radius-lg:18px;
-  --shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);
-  --shadow-md:0 4px 12px rgba(0,0,0,0.08),0 16px 40px rgba(0,0,0,0.06);
-}
+    html {
+      scroll-behavior: smooth
+    }
 
-/* ── Layout ── */
-.page{display:none;min-height:100vh}
-.page.active{display:block}
-.container{max-width:860px;margin:0 auto;padding:0 20px}
-.container-sm{max-width:520px;margin:0 auto;padding:0 20px}
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #F7F6F3;
+      color: #1A1917;
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased
+    }
 
-/* ── Topnav (admin) ── */
-.topnav{background:#1A1917;padding:0 24px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-logo-badge{width:30px;height:30px;background:linear-gradient(135deg,#F59E0B,#EF4444);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:14px}
-.nav-logo-text{color:#fff;font-weight:700;font-size:1rem;letter-spacing:-0.02em}
-.nav-logo-text span{color:#F59E0B}
-.nav-tabs{display:flex;gap:4px}
-.nav-tab{color:#9C9A96;background:none;border:none;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.15s;font-family:inherit;display:flex;align-items:center;gap:6px}
-.nav-tab:hover{color:#fff;background:rgba(255,255,255,0.08)}
-.nav-tab.active{color:#F59E0B;background:rgba(245,158,11,0.12)}
-.nav-tab i{font-size:15px}
+    /* ── Variables ── */
+    :root {
+      --gold: #F59E0B;
+      --gold-dark: #D97706;
+      --gold-light: #FEF3C7;
+      --gold-pale: #FFFBEB;
+      --red: #DC2626;
+      --red-light: #FEF2F2;
+      --red-pale: #FFF5F5;
+      --green: #16A34A;
+      --green-light: #F0FDF4;
+      --blue: #2563EB;
+      --blue-light: #EFF6FF;
+      --surface: #FFFFFF;
+      --surface2: #F9F8F6;
+      --surface3: #F1F0EC;
+      --border: #E8E6E1;
+      --border2: #D4D2CC;
+      --text1: #1A1917;
+      --text2: #605E5A;
+      --text3: #9C9A96;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 18px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 16px 40px rgba(0, 0, 0, 0.06);
+    }
 
-/* ── Admin content area ── */
-.admin-body{padding:28px 0 60px}
+    /* ── Layout ── */
+    .page {
+      display: none;
+      min-height: 100vh
+    }
 
-/* ── Section heading ── */
-.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.section-title{font-size:1.05rem;font-weight:700;color:var(--text1)}
-.section-sub{font-size:12.5px;color:var(--text3);margin-top:2px}
+    .page.active {
+      display: block
+    }
 
-/* ── Cards ── */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow)}
-.card+.card{margin-top:14px}
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px
+    }
 
-/* ── Form elements ── */
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-grid.cols3{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:600px){.form-grid,.form-grid.cols3{grid-template-columns:1fr}}
-.field{display:flex;flex-direction:column;gap:5px}
-.field label{font-size:12.5px;font-weight:600;color:var(--text2);letter-spacing:0.01em}
-.field input,.field select,.field textarea{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;color:var(--text1);background:var(--surface2);transition:border 0.2s,box-shadow 0.2s;outline:none}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,158,11,0.13);background:#fff}
-.field input::placeholder,.field textarea::placeholder{color:var(--text3)}
-.field textarea{resize:vertical;line-height:1.6}
-.field-note{font-size:11.5px;color:var(--text3);margin-top:3px}
-.full{grid-column:1/-1}
+    .container-sm {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 20px
+    }
 
-/* ── Buttons ── */
-.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:var(--radius-sm);font-size:13.5px;font-weight:600;cursor:pointer;border:1.5px solid transparent;font-family:inherit;transition:all 0.15s;text-decoration:none;white-space:nowrap}
-.btn:active{transform:scale(0.97)}
-.btn-primary{background:var(--gold);color:#fff;border-color:var(--gold)}
-.btn-primary:hover{background:var(--gold-dark);border-color:var(--gold-dark)}
-.btn-outline{background:transparent;color:var(--text1);border-color:var(--border2)}
-.btn-outline:hover{background:var(--surface2);border-color:var(--border2)}
-.btn-danger{background:transparent;color:var(--red);border-color:#FECACA}
-.btn-danger:hover{background:var(--red-light)}
-.btn-sm{padding:7px 13px;font-size:12.5px}
-.btn-block{width:100%;justify-content:center}
-.btn i{font-size:16px}
-.btn-sm i{font-size:14px}
+    /* ── Topnav (admin) ── */
+    .topnav {
+      background: #1A1917;
+      padding: 0 24px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100
+    }
 
-/* ── Client cards (admin list) ── */
-.client-grid{display:grid;gap:14px}
-.client-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;box-shadow:var(--shadow);transition:box-shadow 0.2s}
-.client-card:hover{box-shadow:var(--shadow-md)}
-.client-card-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
-.client-avatar{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px;flex-shrink:0}
-.client-info{flex:1;min-width:0}
-.client-name{font-size:15px;font-weight:700;color:var(--text1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.client-cat{font-size:12.5px;color:var(--text3);margin-top:2px}
-.client-email{font-size:12px;color:var(--text3);margin-top:4px;display:flex;align-items:center;gap:5px}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11.5px;font-weight:600}
-.badge-green{background:var(--green-light);color:#15803D}
-.badge-red{background:var(--red-light);color:#B91C1C}
-.badge-gold{background:var(--gold-light);color:#92400E}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
-.stat-box{background:var(--surface3);border-radius:8px;padding:9px 12px;text-align:center}
-.stat-num{font-size:18px;font-weight:700;color:var(--text1)}
-.stat-lbl{font-size:11px;color:var(--text3);margin-top:1px}
-.stat-num.danger{color:var(--red)}
-.stat-num.success{color:var(--green)}
-.client-actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none
+    }
 
-/* ── Reports list ── */
-.report-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
-.report-card+.report-card{margin-top:10px}
-.report-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.report-biz{font-size:12.5px;font-weight:600;color:var(--text2)}
-.report-time{font-size:11.5px;color:var(--text3);margin-left:auto}
-.report-stars{display:flex;gap:2px}
-.report-text{font-size:14px;color:var(--text1);line-height:1.65;background:var(--surface2);border-left:3px solid #FECACA;border-radius:0 6px 6px 0;padding:10px 14px;font-style:italic}
-.report-footer{margin-top:8px;display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--text3)}
-.email-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
-.email-chip.sent{background:var(--green-light);color:#15803D}
-.email-chip.fail{background:var(--red-light);color:#B91C1C}
+    .nav-logo-badge {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #F59E0B, #EF4444);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #fff;
+      font-size: 14px
+    }
 
-/* ── Filter bar ── */
-.filter-bar{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
-.filter-select{padding:8px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13px;font-family:inherit;color:var(--text1);background:var(--surface);cursor:pointer;outline:none;transition:border 0.2s}
-.filter-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,158,11,0.13)}
+    .nav-logo-text {
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.02em
+    }
 
-/* ── QR Modal ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(26,25,23,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;backdrop-filter:blur(3px)}
-.modal-overlay.hidden{display:none}
-.modal{background:var(--surface);border-radius:var(--radius-lg);padding:28px;width:100%;max-width:360px;box-shadow:var(--shadow-md);text-align:center}
-.modal-title{font-size:1rem;font-weight:700;margin-bottom:4px}
-.modal-sub{font-size:13px;color:var(--text3);margin-bottom:20px}
-.qr-img{width:220px;height:220px;border-radius:12px;border:1px solid var(--border);padding:8px;margin:0 auto 16px}
-.qr-url{font-size:11.5px;color:var(--text3);word-break:break-all;background:var(--surface3);padding:8px 12px;border-radius:8px;margin-bottom:16px}
-.modal-actions{display:flex;gap:8px;justify-content:center}
+    .nav-logo-text span {
+      color: #F59E0B
+    }
 
-/* ── Toast ── */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1A1917;color:#fff;padding:10px 20px;border-radius:30px;font-size:13.5px;font-weight:500;z-index:9999;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);white-space:nowrap;display:flex;align-items:center;gap:8px}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.success i{color:#34D399}
-.toast.error i{color:#F87171}
-.toast.info i{color:#60A5FA}
+    .nav-tabs {
+      display: flex;
+      gap: 4px
+    }
 
-/* ── Empty state ── */
-.empty{text-align:center;padding:48px 20px;color:var(--text3)}
-.empty i{font-size:36px;display:block;margin-bottom:12px;opacity:0.4}
-.empty h3{font-size:15px;font-weight:600;color:var(--text2);margin-bottom:6px}
-.empty p{font-size:13.5px;line-height:1.6}
+    .nav-tab {
+      color: #9C9A96;
+      background: none;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
 
-/* ════════════════════════════════════════════════════════════════════════════
+    .nav-tab:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08)
+    }
+
+    .nav-tab.active {
+      color: #F59E0B;
+      background: rgba(245, 158, 11, 0.12)
+    }
+
+    .nav-tab i {
+      font-size: 15px
+    }
+
+    /* ── Admin content area ── */
+    .admin-body {
+      padding: 28px 0 60px
+    }
+
+    /* ── Section heading ── */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text1)
+    }
+
+    .section-sub {
+      font-size: 12.5px;
+      color: var(--text3);
+      margin-top: 2px
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow)
+    }
+
+    .card+.card {
+      margin-top: 14px
+    }
+
+    /* ── Form elements ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    .form-grid.cols3 {
+      grid-template-columns: 1fr 1fr 1fr
+    }
+
+    @media(max-width:600px) {
+
+      .form-grid,
+      .form-grid.cols3 {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px
+    }
+
+    .field label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text2);
+      letter-spacing: 0.01em
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      padding: 10px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text1);
+      background: var(--surface2);
+      transition: border 0.2s, box-shadow 0.2s;
+      outline: none
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.13);
+      background: #fff
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--text3)
+    }
+
+    .field textarea {
+      resize: vertical;
+      line-height: 1.6
+    }
+
+    .field-note {
+      font-size: 11.5px;
+      color: var(--text3);
+      margin-top: 3px
+    }
+
+    .full {
+      grid-column: 1/-1
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      font-family: inherit;
+      transition: all 0.15s;
+      text-decoration: none;
+      white-space: nowrap
+    }
+
+    .btn:active {
+      transform: scale(0.97)
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #fff;
+      border-color: var(--gold)
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-dark);
+      border-color: var(--gold-dark)
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text1);
+      border-color: var(--border2)
+    }
+
+    .btn-outline:hover {
+      background: var(--surface2);
+      border-color: var(--border2)
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--red);
+      border-color: #FECACA
+    }
+
+    .btn-danger:hover {
+      background: var(--red-light)
+    }
+
+    .btn-sm {
+      padding: 7px 13px;
+      font-size: 12.5px
+    }
+
+    .btn-block {
+      width: 100%;
+      justify-content: center
+    }
+
+    .btn i {
+      font-size: 16px
+    }
+
+    .btn-sm i {
+      font-size: 14px
+    }
+
+    /* ── Client cards (admin list) ── */
+    .client-grid {
+      display: grid;
+      gap: 14px
+    }
+
+    .client-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.2s
+    }
+
+    .client-card:hover {
+      box-shadow: var(--shadow-md)
+    }
+
+    .client-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px
+    }
+
+    .client-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #fff;
+      font-size: 16px;
+      flex-shrink: 0
+    }
+
+    .client-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .client-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text1);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .client-cat {
+      font-size: 12.5px;
+      color: var(--text3);
+      margin-top: 2px
+    }
+
+    .client-email {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 600
+    }
+
+    .badge-green {
+      background: var(--green-light);
+      color: #15803D
+    }
+
+    .badge-red {
+      background: var(--red-light);
+      color: #B91C1C
+    }
+
+    .badge-gold {
+      background: var(--gold-light);
+      color: #92400E
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 4px
+    }
+
+    .stat-box {
+      background: var(--surface3);
+      border-radius: 8px;
+      padding: 9px 12px;
+      text-align: center
+    }
+
+    .stat-num {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text1)
+    }
+
+    .stat-lbl {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 1px
+    }
+
+    .stat-num.danger {
+      color: var(--red)
+    }
+
+    .stat-num.success {
+      color: var(--green)
+    }
+
+    .client-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      flex-wrap: wrap
+    }
+
+    /* ── Reports list ── */
+    .report-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: var(--shadow)
+    }
+
+    .report-card+.report-card {
+      margin-top: 10px
+    }
+
+    .report-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap
+    }
+
+    .report-biz {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text2)
+    }
+
+    .report-time {
+      font-size: 11.5px;
+      color: var(--text3);
+      margin-left: auto
+    }
+
+    .report-stars {
+      display: flex;
+      gap: 2px
+    }
+
+    .report-text {
+      font-size: 14px;
+      color: var(--text1);
+      line-height: 1.65;
+      background: var(--surface2);
+      border-left: 3px solid #FECACA;
+      border-radius: 0 6px 6px 0;
+      padding: 10px 14px;
+      font-style: italic
+    }
+
+    .report-footer {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--text3)
+    }
+
+    .email-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500
+    }
+
+    .email-chip.sent {
+      background: var(--green-light);
+      color: #15803D
+    }
+
+    .email-chip.fail {
+      background: var(--red-light);
+      color: #B91C1C
+    }
+
+    /* ── Filter bar ── */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      flex-wrap: wrap
+    }
+
+    .filter-select {
+      padding: 8px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--text1);
+      background: var(--surface);
+      cursor: pointer;
+      outline: none;
+      transition: border 0.2s
+    }
+
+    .filter-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.13)
+    }
+
+    /* ── QR Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 25, 23, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      backdrop-filter: blur(3px)
+    }
+
+    .modal-overlay.hidden {
+      display: none
+    }
+
+    .modal {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: var(--shadow-md);
+      text-align: center
+    }
+
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px
+    }
+
+    .modal-sub {
+      font-size: 13px;
+      color: var(--text3);
+      margin-bottom: 20px
+    }
+
+    .qr-img {
+      width: 220px;
+      height: 220px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 8px;
+      margin: 0 auto 16px
+    }
+
+    .qr-url {
+      font-size: 11.5px;
+      color: var(--text3);
+      word-break: break-all;
+      background: var(--surface3);
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 16px
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1A1917;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 500;
+      z-index: 9999;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0)
+    }
+
+    .toast.success i {
+      color: #34D399
+    }
+
+    .toast.error i {
+      color: #F87171
+    }
+
+    .toast.info i {
+      color: #60A5FA
+    }
+
+    /* ── Empty state ── */
+    .empty {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--text3)
+    }
+
+    .empty i {
+      font-size: 36px;
+      display: block;
+      margin-bottom: 12px;
+      opacity: 0.4
+    }
+
+    .empty h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text2);
+      margin-bottom: 6px
+    }
+
+    .empty p {
+      font-size: 13.5px;
+      line-height: 1.6
+    }
+
+    /* ════════════════════════════════════════════════════════════════════════════
    REVIEW PAGE (customer-facing)
 ════════════════════════════════════════════════════════════════════════════ */
-.review-page{min-height:100vh;background:linear-gradient(160deg,#FFF8EC 0%,#F7F6F3 50%,#F0EDE8 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px}
-.review-logo{display:flex;align-items:center;gap:10px;margin-bottom:32px}
-.review-logo-badge{width:36px;height:36px;background:linear-gradient(135deg,#F59E0B,#EF4444);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px}
-.review-logo-text{font-size:1.1rem;font-weight:800;color:var(--text1);letter-spacing:-0.03em}
-.review-logo-text span{color:#F59E0B}
+    .review-page {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #FFF8EC 0%, #F7F6F3 50%, #F0EDE8 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px
+    }
 
-.review-card{background:#fff;border-radius:22px;padding:28px 24px;width:100%;max-width:400px;box-shadow:0 8px 40px rgba(0,0,0,0.10),0 2px 8px rgba(0,0,0,0.06)}
+    .review-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px
+    }
 
-/* Screens inside review card */
-.rscreen{display:none}
-.rscreen.active{display:block}
+    .review-logo-badge {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #F59E0B, #EF4444);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #fff;
+      font-size: 16px
+    }
 
-/* Biz header */
-.biz-hdr{text-align:center;margin-bottom:22px}
-.biz-av{width:68px;height:68px;border-radius:16px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:24px}
-.biz-title{font-size:17px;font-weight:700;color:var(--text1)}
-.biz-sub{font-size:13px;color:var(--text3);margin-top:3px}
+    .review-logo-text {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text1);
+      letter-spacing: -0.03em
+    }
 
-/* Stars */
-.star-prompt{font-size:14px;color:var(--text2);text-align:center;margin-bottom:16px;font-weight:500}
-.stars-wrap{display:flex;justify-content:center;gap:8px;margin-bottom:8px}
-.star-btn{background:none;border:none;cursor:pointer;padding:4px;border-radius:8px;transition:transform 0.15s;display:flex;flex-direction:column;align-items:center;gap:4px}
-.star-btn:hover{transform:scale(1.2)}
-.star-btn svg{width:46px;height:46px;transition:all 0.2s;fill:none;stroke:#DDD8D0;stroke-width:1.5}
-.star-btn.lit svg{fill:#F59E0B;stroke:#F59E0B}
-.star-btn.lit:hover svg{fill:#D97706;stroke:#D97706}
-.star-hint{font-size:11.5px;color:var(--text3);font-weight:500;min-height:14px}
-.rating-info{text-align:center;font-size:12.5px;color:var(--text3);margin-top:10px;padding:10px 14px;background:var(--surface3);border-radius:8px;line-height:1.6}
-.rating-info .highlight{color:var(--gold);font-weight:600}
-.rating-info .danger{color:var(--red);font-weight:600}
+    .review-logo-text span {
+      color: #F59E0B
+    }
 
-/* Block screen */
-.block-header{text-align:center;margin-bottom:18px}
-.block-icon{width:52px;height:52px;border-radius:50%;background:var(--red-light);display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
-.block-icon i{font-size:22px;color:var(--red)}
-.block-title{font-size:15px;font-weight:700;color:var(--text1);margin-bottom:4px}
-.block-sub{font-size:13px;color:var(--text2);line-height:1.6}
-.stars-badge{display:flex;gap:2px;justify-content:center;margin:8px 0 16px}
-.private-note{background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:10px 14px;font-size:12.5px;color:#92400E;display:flex;align-items:flex-start;gap:8px;margin-bottom:16px;line-height:1.5}
-.private-note i{font-size:14px;flex-shrink:0;margin-top:1px}
-.char-row{display:flex;justify-content:flex-end;margin-top:4px}
-.char-cnt{font-size:11.5px;color:var(--text3)}
-.submit-wrap{margin-top:14px}
+    .review-card {
+      background: #fff;
+      border-radius: 22px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.06)
+    }
 
-/* Success screens */
-.success-icon{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
-.success-icon i{font-size:28px}
-.success-icon.green{background:var(--green-light)}
-.success-icon.green i{color:var(--green)}
-.success-icon.amber{background:var(--gold-light)}
-.success-icon.amber i{color:#D97706}
-.success-title{font-size:17px;font-weight:700;text-align:center;margin-bottom:6px}
-.success-sub{font-size:13.5px;color:var(--text2);text-align:center;line-height:1.65;margin-bottom:16px}
-.info-box{border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.6;display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
-.info-box i{font-size:16px;flex-shrink:0;margin-top:1px}
-.info-box.green{background:var(--green-light);color:#166534}
-.info-box.green i{color:var(--green)}
-.info-box.amber{background:var(--gold-pale);border:1px solid #FDE68A;color:#92400E}
-.info-box.amber i{color:#D97706}
-.redirect-counter{font-size:24px;font-weight:800;color:var(--gold);text-align:center;margin:10px 0}
+    /* Screens inside review card */
+    .rscreen {
+      display: none
+    }
 
-/* Loading overlay */
-.loading-overlay{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:240px;gap:14px}
-.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+    .rscreen.active {
+      display: block
+    }
 
-/* Not found */
-.notfound{text-align:center;padding:48px 20px}
-.notfound i{font-size:48px;color:var(--text3);display:block;margin-bottom:16px}
-.notfound h2{font-size:1.2rem;font-weight:700;margin-bottom:8px}
-.notfound p{font-size:13.5px;color:var(--text2);line-height:1.6}
+    /* Biz header */
+    .biz-hdr {
+      text-align: center;
+      margin-bottom: 22px
+    }
 
-/* Divider */
-.divider{height:1px;background:var(--border);margin:16px 0}
+    .biz-av {
+      width: 68px;
+      height: 68px;
+      border-radius: 16px;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #fff;
+      font-size: 24px
+    }
 
-/* Scrollable areas */
-.scroll-area{overflow-y:auto;max-height:520px}
+    .biz-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text1)
+    }
 
-/* Color swatches for client color picker */
-.color-swatches{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
-.swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;border:2px solid transparent}
-.swatch:hover{transform:scale(1.15)}
-.swatch.selected{border-color:#1A1917;transform:scale(1.15)}
-</style>
+    .biz-sub {
+      font-size: 13px;
+      color: var(--text3);
+      margin-top: 3px
+    }
+
+    /* Stars */
+    .star-prompt {
+      font-size: 14px;
+      color: var(--text2);
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: 500
+    }
+
+    .stars-wrap {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 8px
+    }
+
+    .star-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 8px;
+      transition: transform 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px
+    }
+
+    .star-btn:hover {
+      transform: scale(1.2)
+    }
+
+    .star-btn svg {
+      width: 46px;
+      height: 46px;
+      transition: all 0.2s;
+      fill: none;
+      stroke: #DDD8D0;
+      stroke-width: 1.5
+    }
+
+    .star-btn.lit svg {
+      fill: #F59E0B;
+      stroke: #F59E0B
+    }
+
+    .star-btn.lit:hover svg {
+      fill: #D97706;
+      stroke: #D97706
+    }
+
+    .star-hint {
+      font-size: 11.5px;
+      color: var(--text3);
+      font-weight: 500;
+      min-height: 14px
+    }
+
+    .rating-info {
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--text3);
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: var(--surface3);
+      border-radius: 8px;
+      line-height: 1.6
+    }
+
+    .rating-info .highlight {
+      color: var(--gold);
+      font-weight: 600
+    }
+
+    .rating-info .danger {
+      color: var(--red);
+      font-weight: 600
+    }
+
+    /* Block screen */
+    .block-header {
+      text-align: center;
+      margin-bottom: 18px
+    }
+
+    .block-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--red-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px
+    }
+
+    .block-icon i {
+      font-size: 22px;
+      color: var(--red)
+    }
+
+    .block-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text1);
+      margin-bottom: 4px
+    }
+
+    .block-sub {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6
+    }
+
+    .stars-badge {
+      display: flex;
+      gap: 2px;
+      justify-content: center;
+      margin: 8px 0 16px
+    }
+
+    .private-note {
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      color: #92400E;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 16px;
+      line-height: 1.5
+    }
+
+    .private-note i {
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 1px
+    }
+
+    .char-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 4px
+    }
+
+    .char-cnt {
+      font-size: 11.5px;
+      color: var(--text3)
+    }
+
+    .submit-wrap {
+      margin-top: 14px
+    }
+
+    /* Success screens */
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px
+    }
+
+    .success-icon i {
+      font-size: 28px
+    }
+
+    .success-icon.green {
+      background: var(--green-light)
+    }
+
+    .success-icon.green i {
+      color: var(--green)
+    }
+
+    .success-icon.amber {
+      background: var(--gold-light)
+    }
+
+    .success-icon.amber i {
+      color: #D97706
+    }
+
+    .success-title {
+      font-size: 17px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 6px
+    }
+
+    .success-sub {
+      font-size: 13.5px;
+      color: var(--text2);
+      text-align: center;
+      line-height: 1.65;
+      margin-bottom: 16px
+    }
+
+    .info-box {
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px
+    }
+
+    .info-box i {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 1px
+    }
+
+    .info-box.green {
+      background: var(--green-light);
+      color: #166534
+    }
+
+    .info-box.green i {
+      color: var(--green)
+    }
+
+    .info-box.amber {
+      background: var(--gold-pale);
+      border: 1px solid #FDE68A;
+      color: #92400E
+    }
+
+    .info-box.amber i {
+      color: #D97706
+    }
+
+    .redirect-counter {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--gold);
+      text-align: center;
+      margin: 10px 0
+    }
+
+    /* Loading overlay */
+    .loading-overlay {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 240px;
+      gap: 14px
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* Not found */
+    .notfound {
+      text-align: center;
+      padding: 48px 20px
+    }
+
+    .notfound i {
+      font-size: 48px;
+      color: var(--text3);
+      display: block;
+      margin-bottom: 16px
+    }
+
+    .notfound h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .notfound p {
+      font-size: 13.5px;
+      color: var(--text2);
+      line-height: 1.6
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 16px 0
+    }
+
+    /* Scrollable areas */
+    .scroll-area {
+      overflow-y: auto;
+      max-height: 520px
+    }
+
+    /* Color swatches for client color picker */
+    .color-swatches {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap
+    }
+
+    .swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      border: 2px solid transparent
+    }
+
+    .swatch:hover {
+      transform: scale(1.15)
+    }
+
+    .swatch.selected {
+      border-color: #1A1917;
+      transform: scale(1.15)
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ══════════════════════ ADMIN PAGE ══════════════════════ -->
-<div id="page-admin" class="page active">
-  <nav class="topnav">
-    <a class="nav-logo" href="#" onclick="showAdminTab('clients')">
-      <div class="nav-logo-badge">U</div>
-      <div class="nav-logo-text">Up<span>ranko</span></div>
-    </a>
-    <div class="nav-tabs">
-      <button class="nav-tab active" id="navtab-clients" onclick="showAdminTab('clients')">
-        <i class="ti ti-building-store"></i>Clients
-      </button>
-      <button class="nav-tab" id="navtab-reports" onclick="showAdminTab('reports')">
-        <i class="ti ti-shield-lock"></i>Private Reports
-      </button>
-      <button class="nav-tab" id="navtab-add" onclick="showAdminTab('add')">
-        <i class="ti ti-plus"></i>Add Client
-      </button>
-    </div>
-  </nav>
-
-  <div class="admin-body">
-
-    <!-- ── Clients tab ── -->
-    <div id="admintab-clients" class="container">
-      <div class="section-head" style="margin-bottom:20px">
-        <div>
-          <div class="section-title">Your Clients</div>
-          <div class="section-sub">Each client gets a unique review link and QR code</div>
-        </div>
-        <button class="btn btn-primary" onclick="showAdminTab('add')"><i class="ti ti-plus"></i>Add Client</button>
-      </div>
-      <div id="client-list" class="client-grid">
-        <div class="empty"><i class="ti ti-building-store"></i><h3>Loading clients…</h3></div>
-      </div>
-    </div>
-
-    <!-- ── Reports tab ── -->
-    <div id="admintab-reports" class="container" style="display:none">
-      <div class="section-head" style="margin-bottom:16px">
-        <div>
-          <div class="section-title">Private Feedback Reports</div>
-          <div class="section-sub">Negative reviews intercepted before reaching Google</div>
-        </div>
-      </div>
-      <div class="filter-bar">
-        <select class="filter-select" id="report-filter-client" onchange="loadReports()">
-          <option value="">All clients</option>
-        </select>
-        <select class="filter-select" id="report-filter-rating" onchange="loadReports()">
-          <option value="">All ratings</option>
-          <option value="1">1 star</option>
-          <option value="2">2 stars</option>
-          <option value="3">3 stars</option>
-        </select>
-      </div>
-      <div id="report-list"></div>
-    </div>
-
-    <!-- ── Add Client tab ── -->
-    <div id="admintab-add" class="container-sm" style="display:none">
-      <div class="section-head" style="margin-bottom:20px">
-        <div>
-          <div class="section-title">Add New Client</div>
-          <div class="section-sub">Fill in the details to generate their smart review link</div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="form-grid">
-          <div class="field full">
-            <label>Business Name *</label>
-            <input type="text" id="f-name" placeholder="e.g. The Coffee House" />
-          </div>
-          <div class="field full">
-            <label>Category / Location</label>
-            <input type="text" id="f-cat" placeholder="e.g. Café · Connaught Place, Delhi" />
-          </div>
-          <div class="field full">
-            <label>Owner Name</label>
-            <input type="text" id="f-owner" placeholder="e.g. Rajesh Kumar" />
-          </div>
-          <div class="field full">
-            <label>Owner Email * <span style="color:var(--text3);font-weight:400">(private reports are sent here)</span></label>
-            <input type="email" id="f-email" placeholder="owner@business.com" />
-          </div>
-          <div class="field full">
-            <label>Google Maps Review URL *</label>
-            <input type="url" id="f-url" placeholder="https://search.google.com/local/writereview?placeid=..." />
-            <span class="field-note">Get this from Google Maps → Share → Copy link, or from your Google Business Profile dashboard.</span>
-          </div>
-          <div class="field full">
-            <label>Brand Color</label>
-            <div class="color-swatches" id="color-swatches"></div>
-            <input type="hidden" id="f-color" value="#6366F1">
-          </div>
-        </div>
-        <div style="margin-top:18px;display:flex;gap:8px">
-          <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="submitAddClient()">
-            <i class="ti ti-circle-check"></i> Add Client
-          </button>
-          <button class="btn btn-outline" onclick="showAdminTab('clients')">Cancel</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══════════════════════ REVIEW PAGE ══════════════════════ -->
-<div id="page-review" class="page">
-  <div class="review-page">
-    <div class="review-logo">
-      <div class="review-logo-badge">U</div>
-      <div class="review-logo-text">Up<span>ranko</span></div>
-    </div>
-
-    <div class="review-card">
-      <!-- Loading -->
-      <div id="rs-loading" class="rscreen active">
-        <div class="loading-overlay">
-          <div class="spinner"></div>
-          <div style="font-size:14px;color:var(--text3)">Loading…</div>
-        </div>
-      </div>
-
-      <!-- Not found -->
-      <div id="rs-notfound" class="rscreen">
-        <div class="notfound">
-          <i class="ti ti-alert-circle"></i>
-          <h2>Review page not found</h2>
-          <p>This review link may be invalid or the business may have been removed.</p>
-        </div>
-      </div>
-
-      <!-- Main rating screen -->
-      <div id="rs-rate" class="rscreen">
-        <div class="biz-hdr">
-          <div class="biz-av" id="rv-avatar"></div>
-          <div class="biz-title" id="rv-name"></div>
-          <div class="biz-sub" id="rv-cat"></div>
-        </div>
-        <p class="star-prompt">How was your experience today?</p>
-        <div class="stars-wrap" id="rv-stars"></div>
-        <div class="star-hint" id="rv-hint" style="text-align:center;margin-bottom:12px"></div>
-        <div class="divider"></div>
-        <div class="rating-info">
-          <span class="highlight">4–5 stars</span> opens Google review instantly &nbsp;·&nbsp; <span class="danger">1–3 stars</span> goes privately to the owner
-        </div>
-      </div>
-
-      <!-- Block / private feedback screen -->
-      <div id="rs-block" class="rscreen">
-        <div class="block-header">
-          <div class="block-icon"><i class="ti ti-shield-lock"></i></div>
-          <div class="block-title">We're sorry to hear that</div>
-          <div class="block-sub">Please tell us what went wrong. Your feedback goes <strong>directly and privately</strong> to the owner — it will <strong>never appear on Google</strong>.</div>
-        </div>
-        <div class="stars-badge" id="rv-block-stars"></div>
-        <div class="private-note">
-          <i class="ti ti-lock"></i>
-          <span>This is a <strong>private report</strong>. The business owner will receive it by email. Google will never see it.</span>
-        </div>
-        <textarea id="rv-feedback" rows="4" placeholder="What happened? Please be as specific as you can — this helps the owner fix the issue." maxlength="600" style="width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;font-size:14px;font-family:inherit;color:var(--text1);background:var(--surface2);outline:none;transition:border 0.2s;resize:none" onfocus="this.style.borderColor='#F59E0B'" onblur="this.style.borderColor='var(--border)'"></textarea>
-        <div class="char-row"><span class="char-cnt" id="rv-char">600 left</span></div>
-        <div class="submit-wrap">
-          <button class="btn btn-primary btn-block" id="rv-submit-btn" onclick="submitFeedback()">
-            <i class="ti ti-send"></i> Send Private Feedback
-          </button>
-        </div>
-        <button class="btn btn-outline btn-block" style="margin-top:8px" onclick="goToRating()">
-          <i class="ti ti-arrow-left"></i> Change rating
+  <!-- ══════════════════════ ADMIN PAGE ══════════════════════ -->
+  <div id="page-admin" class="page active">
+    <nav class="topnav">
+      <a class="nav-logo" href="#" onclick="showAdminTab('clients')">
+        <div class="nav-logo-badge">U</div>
+        <div class="nav-logo-text">Up<span>ranko</span></div>
+      </a>
+      <div class="nav-tabs">
+        <button class="nav-tab active" id="navtab-clients" onclick="showAdminTab('clients')">
+          <i class="ti ti-building-store"></i>Clients
+        </button>
+        <button class="nav-tab" id="navtab-reports" onclick="showAdminTab('reports')">
+          <i class="ti ti-shield-lock"></i>Private Reports
+        </button>
+        <button class="nav-tab" id="navtab-add" onclick="showAdminTab('add')">
+          <i class="ti ti-plus"></i>Add Client
         </button>
       </div>
+    </nav>
 
-      <!-- Redirecting to Google -->
-      <div id="rs-redirect" class="rscreen">
-        <div style="text-align:center">
-          <div class="success-icon green"><i class="ti ti-star"></i></div>
-          <div class="success-title">Thank you!</div>
-          <div class="stars-badge" id="rv-redirect-stars" style="justify-content:center;margin:8px 0 12px"></div>
-          <div class="success-sub">You're being taken to Google to leave your review. Your words make a real difference!</div>
-          <div class="redirect-counter" id="rv-countdown">3</div>
-          <div class="info-box green">
-            <i class="ti ti-brand-google"></i>
-            <span>Opening Google Maps review form…</span>
+    <div class="admin-body">
+
+      <!-- ── Clients tab ── -->
+      <div id="admintab-clients" class="container">
+        <div class="section-head" style="margin-bottom:20px">
+          <div>
+            <div class="section-title">Your Clients</div>
+            <div class="section-sub">Each client gets a unique review link and QR code</div>
           </div>
-          <button class="btn btn-outline btn-block" onclick="goToRating()"><i class="ti ti-arrow-left"></i> Go back</button>
+          <button class="btn btn-primary" onclick="showAdminTab('add')"><i class="ti ti-plus"></i>Add Client</button>
+        </div>
+        <div id="client-list" class="client-grid">
+          <div class="empty"><i class="ti ti-building-store"></i>
+            <h3>Loading clients…</h3>
+          </div>
         </div>
       </div>
 
-      <!-- Feedback sent -->
-      <div id="rs-sent" class="rscreen">
-        <div style="text-align:center">
-          <div class="success-icon amber"><i class="ti ti-shield-check"></i></div>
-          <div class="success-title">Feedback received privately</div>
-          <div class="stars-badge" id="rv-sent-stars" style="justify-content:center;margin:8px 0 12px"></div>
-          <div class="success-sub">Your feedback has been sent directly to the business owner's email. It will never be visible on Google or anywhere else publicly.</div>
-          <div class="info-box amber">
+      <!-- ── Reports tab ── -->
+      <div id="admintab-reports" class="container" style="display:none">
+        <div class="section-head" style="margin-bottom:16px">
+          <div>
+            <div class="section-title">Private Feedback Reports</div>
+            <div class="section-sub">Negative reviews intercepted before reaching Google</div>
+          </div>
+        </div>
+        <div class="filter-bar">
+          <select class="filter-select" id="report-filter-client" onchange="loadReports()">
+            <option value="">All clients</option>
+          </select>
+          <select class="filter-select" id="report-filter-rating" onchange="loadReports()">
+            <option value="">All ratings</option>
+            <option value="1">1 star</option>
+            <option value="2">2 stars</option>
+            <option value="3">3 stars</option>
+          </select>
+        </div>
+        <div id="report-list"></div>
+      </div>
+
+      <!-- ── Add Client tab ── -->
+      <div id="admintab-add" class="container-sm" style="display:none">
+        <div class="section-head" style="margin-bottom:20px">
+          <div>
+            <div class="section-title">Add New Client</div>
+            <div class="section-sub">Fill in the details to generate their smart review link</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="form-grid">
+            <div class="field full">
+              <label>Business Name *</label>
+              <input type="text" id="f-name" placeholder="e.g. The Coffee House" />
+            </div>
+            <div class="field full">
+              <label>Category / Location</label>
+              <input type="text" id="f-cat" placeholder="e.g. Café · Connaught Place, Delhi" />
+            </div>
+            <div class="field full">
+              <label>Owner Name</label>
+              <input type="text" id="f-owner" placeholder="e.g. Rajesh Kumar" />
+            </div>
+            <div class="field full">
+              <label>Owner Email * <span style="color:var(--text3);font-weight:400">(private reports are sent
+                  here)</span></label>
+              <input type="email" id="f-email" placeholder="owner@business.com" />
+            </div>
+            <div class="field full">
+              <label>Google Maps Review URL *</label>
+              <input type="url" id="f-url" placeholder="https://search.google.com/local/writereview?placeid=..." />
+              <span class="field-note">Get this from Google Maps → Share → Copy link, or from your Google Business
+                Profile dashboard.</span>
+            </div>
+            <div class="field full">
+              <label>Brand Color</label>
+              <div class="color-swatches" id="color-swatches"></div>
+              <input type="hidden" id="f-color" value="#6366F1">
+            </div>
+          </div>
+          <div style="margin-top:18px;display:flex;gap:8px">
+            <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="submitAddClient()">
+              <i class="ti ti-circle-check"></i> Add Client
+            </button>
+            <button class="btn btn-outline" onclick="showAdminTab('clients')">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════ REVIEW PAGE ══════════════════════ -->
+  <div id="page-review" class="page">
+    <div class="review-page">
+      <div class="review-logo">
+        <div class="review-logo-badge">U</div>
+        <div class="review-logo-text">Up<span>ranko</span></div>
+      </div>
+
+      <div class="review-card">
+        <!-- Loading -->
+        <div id="rs-loading" class="rscreen active">
+          <div class="loading-overlay">
+            <div class="spinner"></div>
+            <div style="font-size:14px;color:var(--text3)">Loading…</div>
+          </div>
+        </div>
+
+        <!-- Not found -->
+        <div id="rs-notfound" class="rscreen">
+          <div class="notfound">
+            <i class="ti ti-alert-circle"></i>
+            <h2>Review page not found</h2>
+            <p>This review link may be invalid or the business may have been removed.</p>
+          </div>
+        </div>
+
+        <!-- Main rating screen -->
+        <div id="rs-rate" class="rscreen">
+          <div class="biz-hdr">
+            <div class="biz-av" id="rv-avatar"></div>
+            <div class="biz-title" id="rv-name"></div>
+            <div class="biz-sub" id="rv-cat"></div>
+          </div>
+          <p class="star-prompt">How was your experience today?</p>
+          <div class="stars-wrap" id="rv-stars"></div>
+          <div class="star-hint" id="rv-hint" style="text-align:center;margin-bottom:12px"></div>
+          <div class="divider"></div>
+          <div class="rating-info">
+            <span class="highlight">4–5 stars</span> opens Google review instantly &nbsp;·&nbsp; <span
+              class="danger">1–3 stars</span> goes privately to the owner
+          </div>
+        </div>
+
+        <!-- Block / private feedback screen -->
+        <div id="rs-block" class="rscreen">
+          <div class="block-header">
+            <div class="block-icon"><i class="ti ti-shield-lock"></i></div>
+            <div class="block-title">We're sorry to hear that</div>
+            <div class="block-sub">Please tell us what went wrong. Your feedback goes <strong>directly and
+                privately</strong> to the owner — it will <strong>never appear on Google</strong>.</div>
+          </div>
+          <div class="stars-badge" id="rv-block-stars"></div>
+          <div class="private-note">
             <i class="ti ti-lock"></i>
-            <span>This private report is encrypted and goes only to the owner. Google was never involved.</span>
+            <span>This is a <strong>private report</strong>. The business owner will receive it by email. Google will
+              never see it.</span>
           </div>
-          <button class="btn btn-outline btn-block" onclick="goToRating()" style="margin-top:4px"><i class="ti ti-refresh"></i> Rate again</button>
+          <textarea id="rv-feedback" rows="4"
+            placeholder="What happened? Please be as specific as you can — this helps the owner fix the issue."
+            maxlength="600"
+            style="width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;font-size:14px;font-family:inherit;color:var(--text1);background:var(--surface2);outline:none;transition:border 0.2s;resize:none"
+            onfocus="this.style.borderColor='#F59E0B'" onblur="this.style.borderColor='var(--border)'"></textarea>
+          <div class="char-row"><span class="char-cnt" id="rv-char">600 left</span></div>
+          <div class="submit-wrap">
+            <button class="btn btn-primary btn-block" id="rv-submit-btn" onclick="submitFeedback()">
+              <i class="ti ti-send"></i> Send Private Feedback
+            </button>
+          </div>
+          <button class="btn btn-outline btn-block" style="margin-top:8px" onclick="goToRating()">
+            <i class="ti ti-arrow-left"></i> Change rating
+          </button>
         </div>
+
+        <!-- Redirecting to Google -->
+        <div id="rs-redirect" class="rscreen">
+          <div style="text-align:center">
+            <div class="success-icon green"><i class="ti ti-star"></i></div>
+            <div class="success-title">Thank you!</div>
+            <div class="stars-badge" id="rv-redirect-stars" style="justify-content:center;margin:8px 0 12px"></div>
+            <div class="success-sub">You're being taken to Google to leave your review. Your words make a real
+              difference!</div>
+            <div class="redirect-counter" id="rv-countdown">3</div>
+            <div class="info-box green">
+              <i class="ti ti-brand-google"></i>
+              <span>Opening Google Maps review form…</span>
+            </div>
+            <button class="btn btn-outline btn-block" onclick="goToRating()"><i class="ti ti-arrow-left"></i> Go
+              back</button>
+          </div>
+        </div>
+
+        <!-- Feedback sent -->
+        <div id="rs-sent" class="rscreen">
+          <div style="text-align:center">
+            <div class="success-icon amber"><i class="ti ti-shield-check"></i></div>
+            <div class="success-title">Feedback received privately</div>
+            <div class="stars-badge" id="rv-sent-stars" style="justify-content:center;margin:8px 0 12px"></div>
+            <div class="success-sub">Your feedback has been sent directly to the business owner's email. It will never
+              be visible on Google or anywhere else publicly.</div>
+            <div class="info-box amber">
+              <i class="ti ti-lock"></i>
+              <span>This private report is encrypted and goes only to the owner. Google was never involved.</span>
+            </div>
+            <button class="btn btn-outline btn-block" onclick="goToRating()" style="margin-top:4px"><i
+                class="ti ti-refresh"></i> Rate again</button>
+          </div>
+        </div>
+
       </div>
-
-    </div>
-    <div style="text-align:center;margin-top:16px;font-size:11.5px;color:rgba(26,25,23,0.35)">Powered by Upranko · Smart Review Filter</div>
-  </div>
-</div>
-
-<!-- ══════════════════════ QR Modal ══════════════════════ -->
-<div class="modal-overlay hidden" id="qr-modal" onclick="closeQR(event)">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-title" id="qr-modal-title">QR Code</div>
-    <div class="modal-sub" id="qr-modal-sub">Scan to open review page</div>
-    <img class="qr-img" id="qr-img" src="" alt="QR Code">
-    <div class="qr-url" id="qr-url"></div>
-    <div class="modal-actions">
-      <a class="btn btn-primary" id="qr-download" download="upranko-qr.png"><i class="ti ti-download"></i> Download QR</a>
-      <button class="btn btn-outline" onclick="closeQRModal()"><i class="ti ti-x"></i> Close</button>
+      <div style="text-align:center;margin-top:16px;font-size:11.5px;color:rgba(26,25,23,0.35)">Powered by Upranko ·
+        Smart Review Filter</div>
     </div>
   </div>
-</div>
 
-<!-- Toast -->
-<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
+  <!-- ══════════════════════ QR Modal ══════════════════════ -->
+  <div class="modal-overlay hidden" id="qr-modal" onclick="closeQR(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-title" id="qr-modal-title">QR Code</div>
+      <div class="modal-sub" id="qr-modal-sub">Scan to open review page</div>
+      <img class="qr-img" id="qr-img" src="" alt="QR Code">
+      <div class="qr-url" id="qr-url"></div>
+      <div class="modal-actions">
+        <a class="btn btn-primary" id="qr-download" download="upranko-qr.png"><i class="ti ti-download"></i> Download
+          QR</a>
+        <button class="btn btn-outline" onclick="closeQRModal()"><i class="ti ti-x"></i> Close</button>
+      </div>
+    </div>
+  </div>
 
-<script>
-// ──────────────────────────────────────────────────────────────────────────────
-// GLOBAL STATE
-// ──────────────────────────────────────────────────────────────────────────────
-const API = ''; // empty = same origin
-let currentRating = 0;
-let reviewClient = null;
-let countdownTimer = null;
+  <!-- Toast -->
+  <div class="toast" id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
 
-const COLORS = ['#6366F1','#3B82F6','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899','#06B6D4','#84CC16','#F97316','#1C1917'];
+  <script>
+    // ──────────────────────────────────────────────────────────────────────────────
+    // GLOBAL STATE
+    // ──────────────────────────────────────────────────────────────────────────────
+    const API = ''; // empty = same origin
+    let currentRating = 0;
+    let reviewClient = null;
+    let countdownTimer = null;
 
-// ──────────────────────────────────────────────────────────────────────────────
-// ROUTER — decide which page to show
-// ──────────────────────────────────────────────────────────────────────────────
-function route() {
-  const path = window.location.pathname;
-  const m = path.match(/^\/review\/([^/]+)/);
-  if (m) {
-    showPage('review');
-    initReviewPage(m[1]);
-  } else {
-    showPage('admin');
-    initAdmin();
-  }
-}
+    const COLORS = ['#6366F1', '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16', '#F97316', '#1C1917'];
 
-function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-}
-
-// ──────────────────────────────────────────────────────────────────────────────
-// ADMIN — init
-// ──────────────────────────────────────────────────────────────────────────────
-function initAdmin() {
-  renderColorSwatches();
-  loadClients();
-}
-
-function showAdminTab(tab) {
-  ['clients','reports','add'].forEach(t => {
-    document.getElementById('admintab-' + t).style.display = t === tab ? '' : 'none';
-    const btn = document.getElementById('navtab-' + t);
-    if (btn) btn.classList.toggle('active', t === tab);
-  });
-  if (tab === 'clients') loadClients();
-  if (tab === 'reports') { loadReports(); populateReportFilter(); }
-}
-
-function renderColorSwatches() {
-  const wrap = document.getElementById('color-swatches');
-  wrap.innerHTML = COLORS.map((c, i) =>
-    `<div class="swatch${i===0?' selected':''}" style="background:${c}" onclick="selectColor('${c}',this)" title="${c}"></div>`
-  ).join('');
-}
-
-function selectColor(hex, el) {
-  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
-  el.classList.add('selected');
-  document.getElementById('f-color').value = hex;
-}
-
-// ──────────────────────────────────────────────────────────────────────────────
-// ADMIN — clients
-// ──────────────────────────────────────────────────────────────────────────────
-async function loadClients() {
-  const list = document.getElementById('client-list');
-  try {
-    const res = await fetch(API + '/api/clients');
-    const clients = await res.json();
-    if (!clients.length) {
-      list.innerHTML = `<div class="empty"><i class="ti ti-building-store"></i><h3>No clients yet</h3><p>Add your first client using the button above.</p></div>`;
-      return;
+    // ──────────────────────────────────────────────────────────────────────────────
+    // ROUTER — decide which page to show
+    // ──────────────────────────────────────────────────────────────────────────────
+    function route() {
+      const path = window.location.pathname;
+      const m = path.match(/^\/review\/([^/]+)/);
+      if (m) {
+        showPage('review');
+        initReviewPage(m[1]);
+      } else {
+        showPage('admin');
+        initAdmin();
+      }
     }
-    // Load reports count per client
-    const repRes = await fetch(API + '/api/reports');
-    const allReports = await repRes.json();
 
-    list.innerHTML = clients.map(c => {
-      const reports = allReports.filter(r => r.clientId === c.id);
-      const blocked = reports.length;
-      const avgAll = reports.length ? (reports.reduce((s,r)=>s+r.rating,0)/reports.length).toFixed(1) : '—';
-      const initials = c.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-      return `
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────────
+    // ADMIN — init
+    // ──────────────────────────────────────────────────────────────────────────────
+    function initAdmin() {
+      renderColorSwatches();
+      loadClients();
+    }
+
+    function showAdminTab(tab) {
+      ['clients', 'reports', 'add'].forEach(t => {
+        document.getElementById('admintab-' + t).style.display = t === tab ? '' : 'none';
+        const btn = document.getElementById('navtab-' + t);
+        if (btn) btn.classList.toggle('active', t === tab);
+      });
+      if (tab === 'clients') loadClients();
+      if (tab === 'reports') { loadReports(); populateReportFilter(); }
+    }
+
+    function renderColorSwatches() {
+      const wrap = document.getElementById('color-swatches');
+      wrap.innerHTML = COLORS.map((c, i) =>
+        `<div class="swatch${i === 0 ? ' selected' : ''}" style="background:${c}" onclick="selectColor('${c}',this)" title="${c}"></div>`
+      ).join('');
+    }
+
+    function selectColor(hex, el) {
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('f-color').value = hex;
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────────
+    // ADMIN — clients
+    // ──────────────────────────────────────────────────────────────────────────────
+    async function loadClients() {
+      const list = document.getElementById('client-list');
+      try {
+        const res = await fetch(API + '/api/clients');
+        const clients = await res.json();
+        if (!clients.length) {
+          list.innerHTML = `<div class="empty"><i class="ti ti-building-store"></i><h3>No clients yet</h3><p>Add your first client using the button above.</p></div>`;
+          return;
+        }
+        // Load reports count per client
+        const repRes = await fetch(API + '/api/reports');
+        const allReports = await repRes.json();
+
+        list.innerHTML = clients.map(c => {
+          const reports = allReports.filter(r => r.clientId === c.id);
+          const blocked = reports.length;
+          const avgAll = reports.length ? (reports.reduce((s, r) => s + r.rating, 0) / reports.length).toFixed(1) : '—';
+          const initials = c.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+          return `
       <div class="client-card" id="cc-${c.id}">
         <div class="client-card-top">
           <div class="client-avatar" style="background:${c.color}">${initials}</div>
@@ -557,12 +1479,12 @@ async function loadClients() {
             <div class="client-cat">${esc(c.category)}</div>
             <div class="client-email"><i class="ti ti-mail" style="font-size:12px"></i>${esc(c.ownerEmail)}</div>
           </div>
-          <span class="badge ${c.active?'badge-green':'badge-red'}">${c.active?'Active':'Inactive'}</span>
+          <span class="badge ${c.active ? 'badge-green' : 'badge-red'}">${c.active ? 'Active' : 'Inactive'}</span>
         </div>
         <div class="stat-row">
-          <div class="stat-box"><div class="stat-num">${blocked>0?avgAll:'—'}</div><div class="stat-lbl">Avg blocked</div></div>
+          <div class="stat-box"><div class="stat-num">${blocked > 0 ? avgAll : '—'}</div><div class="stat-lbl">Avg blocked</div></div>
           <div class="stat-box"><div class="stat-num">${blocked}</div><div class="stat-lbl">Reports</div></div>
-          <div class="stat-box"><div class="stat-num ${blocked>0?'danger':''}">${blocked}</div><div class="stat-lbl">Blocked</div></div>
+          <div class="stat-box"><div class="stat-num ${blocked > 0 ? 'danger' : ''}">${blocked}</div><div class="stat-lbl">Blocked</div></div>
         </div>
         <div class="client-actions">
           <button class="btn btn-outline btn-sm" onclick="showQR('${c.id}')"><i class="ti ti-qrcode"></i>QR Code</button>
@@ -571,85 +1493,85 @@ async function loadClients() {
           <button class="btn btn-danger btn-sm" onclick="deleteClient('${c.id}','${esc(c.name)}')"><i class="ti ti-trash"></i></button>
         </div>
       </div>`;
-    }).join('');
-  } catch (e) {
-    list.innerHTML = `<div class="empty"><i class="ti ti-alert-circle"></i><h3>Could not load clients</h3><p>${e.message}</p></div>`;
-  }
-}
-
-async function submitAddClient() {
-  const name = document.getElementById('f-name').value.trim();
-  const category = document.getElementById('f-cat').value.trim();
-  const ownerName = document.getElementById('f-owner').value.trim();
-  const ownerEmail = document.getElementById('f-email').value.trim();
-  const googleUrl = document.getElementById('f-url').value.trim();
-  const color = document.getElementById('f-color').value;
-
-  if (!name) { toast('Business name is required', 'error'); return; }
-  if (!ownerEmail || !ownerEmail.includes('@')) { toast('Valid owner email is required', 'error'); return; }
-  if (!googleUrl || !googleUrl.startsWith('http')) { toast('Valid Google Maps URL is required', 'error'); return; }
-
-  try {
-    const res = await fetch(API + '/api/clients', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, category, ownerName, ownerEmail, googleUrl, color })
-    });
-    if (!res.ok) throw new Error((await res.json()).error);
-    toast('Client added successfully!', 'success');
-    ['f-name','f-cat','f-owner','f-email','f-url'].forEach(id => document.getElementById(id).value = '');
-    renderColorSwatches();
-    showAdminTab('clients');
-  } catch (e) {
-    toast('Error: ' + e.message, 'error');
-  }
-}
-
-async function deleteClient(id, name) {
-  if (!confirm(`Delete "${name}"? This will also remove all their private reports.`)) return;
-  await fetch(API + '/api/clients/' + id, { method: 'DELETE' });
-  toast('Client deleted', 'info');
-  loadClients();
-}
-
-function copyLink(id) {
-  const url = window.location.origin + '/review/' + id;
-  navigator.clipboard.writeText(url).then(() => toast('Link copied to clipboard!', 'success'));
-}
-
-function previewLink(id) {
-  window.open('/review/' + id, '_blank');
-}
-
-// ──────────────────────────────────────────────────────────────────────────────
-// ADMIN — reports
-// ──────────────────────────────────────────────────────────────────────────────
-async function populateReportFilter() {
-  const sel = document.getElementById('report-filter-client');
-  const res = await fetch(API + '/api/clients');
-  const clients = await res.json();
-  sel.innerHTML = '<option value="">All clients</option>' +
-    clients.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
-}
-
-async function loadReports() {
-  const list = document.getElementById('report-list');
-  list.innerHTML = '<div class="empty"><i class="ti ti-loader"></i><h3>Loading…</h3></div>';
-  const clientId = document.getElementById('report-filter-client')?.value || '';
-  const rating = document.getElementById('report-filter-rating')?.value || '';
-  let url = API + '/api/reports';
-  if (clientId) url += '?clientId=' + clientId;
-
-  try {
-    const res = await fetch(url);
-    let reports = await res.json();
-    if (rating) reports = reports.filter(r => r.rating === parseInt(rating));
-
-    if (!reports.length) {
-      list.innerHTML = `<div class="empty"><i class="ti ti-mood-happy"></i><h3>No private reports yet</h3><p>Negative reviews will appear here once customers submit feedback.</p></div>`;
-      return;
+        }).join('');
+      } catch (e) {
+        list.innerHTML = `<div class="empty"><i class="ti ti-alert-circle"></i><h3>Could not load clients</h3><p>${e.message}</p></div>`;
+      }
     }
-    list.innerHTML = reports.map(r => `
+
+    async function submitAddClient() {
+      const name = document.getElementById('f-name').value.trim();
+      const category = document.getElementById('f-cat').value.trim();
+      const ownerName = document.getElementById('f-owner').value.trim();
+      const ownerEmail = document.getElementById('f-email').value.trim();
+      const googleUrl = document.getElementById('f-url').value.trim();
+      const color = document.getElementById('f-color').value;
+
+      if (!name) { toast('Business name is required', 'error'); return; }
+      if (!ownerEmail || !ownerEmail.includes('@')) { toast('Valid owner email is required', 'error'); return; }
+      if (!googleUrl || !googleUrl.startsWith('http')) { toast('Valid Google Maps URL is required', 'error'); return; }
+
+      try {
+        const res = await fetch(API + '/api/clients', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, category, ownerName, ownerEmail, googleUrl, color })
+        });
+        if (!res.ok) throw new Error((await res.json()).error);
+        toast('Client added successfully!', 'success');
+        ['f-name', 'f-cat', 'f-owner', 'f-email', 'f-url'].forEach(id => document.getElementById(id).value = '');
+        renderColorSwatches();
+        showAdminTab('clients');
+      } catch (e) {
+        toast('Error: ' + e.message, 'error');
+      }
+    }
+
+    async function deleteClient(id, name) {
+      if (!confirm(`Delete "${name}"? This will also remove all their private reports.`)) return;
+      await fetch(API + '/api/clients/' + id, { method: 'DELETE' });
+      toast('Client deleted', 'info');
+      loadClients();
+    }
+
+    function copyLink(id) {
+      const url = window.location.origin + '/review/' + id;
+      navigator.clipboard.writeText(url).then(() => toast('Link copied to clipboard!', 'success'));
+    }
+
+    function previewLink(id) {
+      window.open('/review/' + id, '_blank');
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────────
+    // ADMIN — reports
+    // ──────────────────────────────────────────────────────────────────────────────
+    async function populateReportFilter() {
+      const sel = document.getElementById('report-filter-client');
+      const res = await fetch(API + '/api/clients');
+      const clients = await res.json();
+      sel.innerHTML = '<option value="">All clients</option>' +
+        clients.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+    }
+
+    async function loadReports() {
+      const list = document.getElementById('report-list');
+      list.innerHTML = '<div class="empty"><i class="ti ti-loader"></i><h3>Loading…</h3></div>';
+      const clientId = document.getElementById('report-filter-client')?.value || '';
+      const rating = document.getElementById('report-filter-rating')?.value || '';
+      let url = API + '/api/reports';
+      if (clientId) url += '?clientId=' + clientId;
+
+      try {
+        const res = await fetch(url);
+        let reports = await res.json();
+        if (rating) reports = reports.filter(r => r.rating === parseInt(rating));
+
+        if (!reports.length) {
+          list.innerHTML = `<div class="empty"><i class="ti ti-mood-happy"></i><h3>No private reports yet</h3><p>Negative reviews will appear here once customers submit feedback.</p></div>`;
+          return;
+        }
+        list.innerHTML = reports.map(r => `
       <div class="report-card">
         <div class="report-meta">
           <div class="report-stars">${starsMini(r.rating, 15)}</div>
@@ -660,227 +1582,228 @@ async function loadReports() {
         <div class="report-footer">
           <i class="ti ti-lock" style="font-size:12px"></i>
           <span>Anonymous · Never posted to Google</span>
-          <span class="email-chip ${r.emailSent?'sent':'fail'}">
-            <i class="ti ti-${r.emailSent?'mail-check':'mail-x'}" style="font-size:12px"></i>
+          <span class="email-chip ${r.emailSent ? 'sent' : 'fail'}">
+            <i class="ti ti-${r.emailSent ? 'mail-check' : 'mail-x'}" style="font-size:12px"></i>
             ${r.emailSent ? 'Email sent to owner' : 'Email not sent'}
           </span>
         </div>
       </div>`).join('');
-  } catch (e) {
-    list.innerHTML = `<div class="empty"><i class="ti ti-alert-circle"></i><h3>Error loading reports</h3><p>${e.message}</p></div>`;
-  }
-}
-
-// ──────────────────────────────────────────────────────────────────────────────
-// ADMIN — QR modal
-// ──────────────────────────────────────────────────────────────────────────────
-async function showQR(id) {
-  document.getElementById('qr-modal').classList.remove('hidden');
-  document.getElementById('qr-img').src = '';
-  document.getElementById('qr-url').textContent = 'Generating…';
-  try {
-    const res = await fetch(API + '/api/qr/' + id);
-    const { qr, url } = await res.json();
-    document.getElementById('qr-img').src = qr;
-    document.getElementById('qr-url').textContent = url;
-    document.getElementById('qr-download').href = qr;
-    // Get biz name
-    const clients = await (await fetch(API + '/api/clients')).json();
-    const c = clients.find(x => x.id === id);
-    document.getElementById('qr-modal-title').textContent = c ? c.name : 'QR Code';
-  } catch (e) {
-    document.getElementById('qr-url').textContent = 'Error: ' + e.message;
-  }
-}
-
-function closeQRModal() { document.getElementById('qr-modal').classList.add('hidden'); }
-function closeQR(e) { if (e.target === document.getElementById('qr-modal')) closeQRModal(); }
-
-// ──────────────────────────────────────────────────────────────────────────────
-// REVIEW PAGE
-// ──────────────────────────────────────────────────────────────────────────────
-async function initReviewPage(clientId) {
-  showRScreen('rs-loading');
-  try {
-    const res = await fetch(API + '/api/client/' + clientId);
-    if (!res.ok) throw new Error('Not found');
-    reviewClient = await res.json();
-    buildRatingScreen();
-    showRScreen('rs-rate');
-  } catch {
-    showRScreen('rs-notfound');
-  }
-}
-
-function buildRatingScreen() {
-  const c = reviewClient;
-  const initials = c.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-  const av = document.getElementById('rv-avatar');
-  av.textContent = initials;
-  av.style.background = c.color || '#6366F1';
-  document.getElementById('rv-name').textContent = c.name;
-  document.getElementById('rv-cat').textContent = c.category;
-
-  const starsWrap = document.getElementById('rv-stars');
-  starsWrap.innerHTML = [1,2,3,4,5].map(i =>
-    `<button class="star-btn" id="rv-star-${i}" onmouseover="hoverStar(${i})" onmouseleave="leaveStar()" onclick="clickStar(${i})" aria-label="${i} star${i>1?'s':''}">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-    </button>`
-  ).join('');
-}
-
-const STAR_LABELS = ['','Terrible','Poor','Okay','Good','Excellent!'];
-
-function hoverStar(n) {
-  paintStars(n);
-  document.getElementById('rv-hint').textContent = STAR_LABELS[n];
-}
-function leaveStar() {
-  paintStars(currentRating);
-  document.getElementById('rv-hint').textContent = currentRating ? STAR_LABELS[currentRating] : '';
-}
-function paintStars(n) {
-  [1,2,3,4,5].forEach(i => {
-    const btn = document.getElementById('rv-star-'+i);
-    if (btn) btn.classList.toggle('lit', i <= n);
-  });
-}
-
-function clickStar(n) {
-  currentRating = n;
-  paintStars(n);
-  setTimeout(() => {
-    if (n >= 4) goToGoogleRedirect(n);
-    else goToBlockScreen(n);
-  }, 350);
-}
-
-function goToGoogleRedirect(n) {
-  showRScreen('rs-redirect');
-  document.getElementById('rv-redirect-stars').innerHTML = starsMini(n, 18);
-  const el = document.getElementById('rv-countdown');
-  if (el) el.style.display = 'none';
-  window.location.href = reviewClient.googleUrl;
-}
-
-function goToBlockScreen(n) {
-  document.getElementById('rv-block-stars').innerHTML = starsMini(n, 17);
-  document.getElementById('rv-feedback').value = '';
-  document.getElementById('rv-char').textContent = '600 left';
-  showRScreen('rs-block');
-}
-
-function goToRating() {
-  clearInterval(countdownTimer);
-  currentRating = 0;
-  paintStars(0);
-  document.getElementById('rv-hint').textContent = '';
-  showRScreen('rs-rate');
-}
-
-async function submitFeedback() {
-  const text = document.getElementById('rv-feedback').value.trim();
-  if (!text) { document.getElementById('rv-feedback').focus(); return; }
-  if (text.length < 10) { toast('Please write at least 10 characters', 'error'); return; }
-
-  const btn = document.getElementById('rv-submit-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 0.8s linear infinite"></i> Sending…';
-
-  try {
-    const res = await fetch(API + '/api/feedback', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ clientId: reviewClient.id, rating: currentRating, feedback: text })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
-
-    // Send email via FormSubmit directly from the browser to bypass Vercel IP blocks
-    if (reviewClient.ownerEmail) {
-      await fetch(`https://formsubmit.co/ajax/${reviewClient.ownerEmail}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          _subject: `⚠️ Private Feedback Alert — ${reviewClient.name} (${currentRating}★)`,
-          Business: reviewClient.name,
-          Rating: `${currentRating}/5`,
-          Feedback: text,
-          Note: "This feedback was intercepted before reaching Google. It was never posted publicly.",
-          _template: 'box'
-        })
-      }).catch(err => console.error("FormSubmit Error:", err));
+      } catch (e) {
+        list.innerHTML = `<div class="empty"><i class="ti ti-alert-circle"></i><h3>Error loading reports</h3><p>${e.message}</p></div>`;
+      }
     }
 
-    document.getElementById('rv-sent-stars').innerHTML = starsMini(currentRating, 18);
-    showRScreen('rs-sent');
-  } catch (e) {
-    toast('Could not send feedback: ' + e.message, 'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="ti ti-send"></i> Send Private Feedback';
-  }
-}
+    // ──────────────────────────────────────────────────────────────────────────────
+    // ADMIN — QR modal
+    // ──────────────────────────────────────────────────────────────────────────────
+    async function showQR(id) {
+      document.getElementById('qr-modal').classList.remove('hidden');
+      document.getElementById('qr-img').src = '';
+      document.getElementById('qr-url').textContent = 'Generating…';
+      try {
+        const res = await fetch(API + '/api/qr/' + id);
+        const { qr, url } = await res.json();
+        document.getElementById('qr-img').src = qr;
+        document.getElementById('qr-url').textContent = url;
+        document.getElementById('qr-download').href = qr;
+        // Get biz name
+        const clients = await (await fetch(API + '/api/clients')).json();
+        const c = clients.find(x => x.id === id);
+        document.getElementById('qr-modal-title').textContent = c ? c.name : 'QR Code';
+      } catch (e) {
+        document.getElementById('qr-url').textContent = 'Error: ' + e.message;
+      }
+    }
 
-document.addEventListener('input', e => {
-  if (e.target.id === 'rv-feedback') {
-    const left = 600 - e.target.value.length;
-    document.getElementById('rv-char').textContent = left + ' left';
-  }
-});
+    function closeQRModal() { document.getElementById('qr-modal').classList.add('hidden'); }
+    function closeQR(e) { if (e.target === document.getElementById('qr-modal')) closeQRModal(); }
 
-function showRScreen(id) {
-  document.querySelectorAll('.rscreen').forEach(s => s.classList.remove('active'));
-  const el = document.getElementById(id);
-  if (el) el.classList.add('active');
-}
+    // ──────────────────────────────────────────────────────────────────────────────
+    // REVIEW PAGE
+    // ──────────────────────────────────────────────────────────────────────────────
+    async function initReviewPage(clientId) {
+      showRScreen('rs-loading');
+      try {
+        const res = await fetch(API + '/api/client/' + clientId);
+        if (!res.ok) throw new Error('Not found');
+        reviewClient = await res.json();
+        buildRatingScreen();
+        showRScreen('rs-rate');
+      } catch {
+        showRScreen('rs-notfound');
+      }
+    }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// UTILS
-// ──────────────────────────────────────────────────────────────────────────────
-function esc(str) {
-  if (!str) return '';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+    function buildRatingScreen() {
+      const c = reviewClient;
+      const initials = c.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+      const av = document.getElementById('rv-avatar');
+      av.textContent = initials;
+      av.style.background = c.color || '#6366F1';
+      document.getElementById('rv-name').textContent = c.name;
+      document.getElementById('rv-cat').textContent = c.category;
 
-function starsMini(n, size=14) {
-  return [1,2,3,4,5].map(i =>
-    `<svg width="${size}" height="${size}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="fill:${i<=n?'#F59E0B':'#DDD8D0'};stroke:${i<=n?'#F59E0B':'#DDD8D0'};stroke-width:1.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>`
-  ).join('');
-}
+      const starsWrap = document.getElementById('rv-stars');
+      starsWrap.innerHTML = [1, 2, 3, 4, 5].map(i =>
+        `<button class="star-btn" id="rv-star-${i}" onmouseover="hoverStar(${i})" onmouseleave="leaveStar()" onclick="clickStar(${i})" aria-label="${i} star${i > 1 ? 's' : ''}">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+    </button>`
+      ).join('');
+    }
 
-function timeAgo(iso) {
-  const d = new Date(iso);
-  const diff = Date.now() - d.getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return 'Just now';
-  if (mins < 60) return `${mins}m ago`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
-  const days = Math.floor(hrs / 24);
-  if (days < 7) return `${days}d ago`;
-  return d.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
-}
+    const STAR_LABELS = ['', 'Terrible', 'Poor', 'Okay', 'Good', 'Excellent!'];
 
-let toastTimer;
-function toast(msg, type = 'info') {
-  const el = document.getElementById('toast');
-  const icon = el.querySelector('i');
-  el.className = 'toast ' + type;
-  icon.className = `ti ti-${type==='success'?'circle-check':type==='error'?'circle-x':'info-circle'}`;
-  document.getElementById('toast-msg').textContent = msg;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
-}
+    function hoverStar(n) {
+      paintStars(n);
+      document.getElementById('rv-hint').textContent = STAR_LABELS[n];
+    }
+    function leaveStar() {
+      paintStars(currentRating);
+      document.getElementById('rv-hint').textContent = currentRating ? STAR_LABELS[currentRating] : '';
+    }
+    function paintStars(n) {
+      [1, 2, 3, 4, 5].forEach(i => {
+        const btn = document.getElementById('rv-star-' + i);
+        if (btn) btn.classList.toggle('lit', i <= n);
+      });
+    }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// START
-// ──────────────────────────────────────────────────────────────────────────────
-route();
-</script>
+    function clickStar(n) {
+      currentRating = n;
+      paintStars(n);
+      setTimeout(() => {
+        if (n >= 4) goToGoogleRedirect(n);
+        else goToBlockScreen(n);
+      }, 350);
+    }
+
+    function goToGoogleRedirect(n) {
+      showRScreen('rs-redirect');
+      document.getElementById('rv-redirect-stars').innerHTML = starsMini(n, 18);
+      const el = document.getElementById('rv-countdown');
+      if (el) el.style.display = 'none';
+      window.location.href = reviewClient.googleUrl;
+    }
+
+    function goToBlockScreen(n) {
+      document.getElementById('rv-block-stars').innerHTML = starsMini(n, 17);
+      document.getElementById('rv-feedback').value = '';
+      document.getElementById('rv-char').textContent = '600 left';
+      showRScreen('rs-block');
+    }
+
+    function goToRating() {
+      clearInterval(countdownTimer);
+      currentRating = 0;
+      paintStars(0);
+      document.getElementById('rv-hint').textContent = '';
+      showRScreen('rs-rate');
+    }
+
+    async function submitFeedback() {
+      const text = document.getElementById('rv-feedback').value.trim();
+      if (!text) { document.getElementById('rv-feedback').focus(); return; }
+      if (text.length < 10) { toast('Please write at least 10 characters', 'error'); return; }
+
+      const btn = document.getElementById('rv-submit-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 0.8s linear infinite"></i> Sending…';
+
+      try {
+        const res = await fetch(API + '/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ clientId: reviewClient.id, rating: currentRating, feedback: text })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+
+        // Send email via FormSubmit directly from the browser to bypass Vercel IP blocks
+        if (reviewClient.ownerEmail) {
+          await fetch(`https://formsubmit.co/ajax/${reviewClient.ownerEmail}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              _subject: `⚠️ Private Feedback Alert — ${reviewClient.name} (${currentRating}★)`,
+              Business: reviewClient.name,
+              Rating: `${currentRating}/5`,
+              Feedback: text,
+              Note: "This feedback was intercepted before reaching Google. It was never posted publicly.",
+              _template: 'box'
+            })
+          }).catch(err => console.error("FormSubmit Error:", err));
+        }
+
+        document.getElementById('rv-sent-stars').innerHTML = starsMini(currentRating, 18);
+        showRScreen('rs-sent');
+      } catch (e) {
+        toast('Could not send feedback: ' + e.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ti ti-send"></i> Send Private Feedback';
+      }
+    }
+
+    document.addEventListener('input', e => {
+      if (e.target.id === 'rv-feedback') {
+        const left = 600 - e.target.value.length;
+        document.getElementById('rv-char').textContent = left + ' left';
+      }
+    });
+
+    function showRScreen(id) {
+      document.querySelectorAll('.rscreen').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────────
+    // UTILS
+    // ──────────────────────────────────────────────────────────────────────────────
+    function esc(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function starsMini(n, size = 14) {
+      return [1, 2, 3, 4, 5].map(i =>
+        `<svg width="${size}" height="${size}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="fill:${i <= n ? '#F59E0B' : '#DDD8D0'};stroke:${i <= n ? '#F59E0B' : '#DDD8D0'};stroke-width:1.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>`
+      ).join('');
+    }
+
+    function timeAgo(iso) {
+      const d = new Date(iso);
+      const diff = Date.now() - d.getTime();
+      const mins = Math.floor(diff / 60000);
+      if (mins < 1) return 'Just now';
+      if (mins < 60) return `${mins}m ago`;
+      const hrs = Math.floor(mins / 60);
+      if (hrs < 24) return `${hrs}h ago`;
+      const days = Math.floor(hrs / 24);
+      if (days < 7) return `${days}d ago`;
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+    }
+
+    let toastTimer;
+    function toast(msg, type = 'info') {
+      const el = document.getElementById('toast');
+      const icon = el.querySelector('i');
+      el.className = 'toast ' + type;
+      icon.className = `ti ti-${type === 'success' ? 'circle-check' : type === 'error' ? 'circle-x' : 'info-circle'}`;
+      document.getElementById('toast-msg').textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────────
+    // START
+    // ──────────────────────────────────────────────────────────────────────────────
+    route();
+  </script>
 </body>
+
 </html>
