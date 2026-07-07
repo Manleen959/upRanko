@@ -1517,7 +1517,27 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, category, ownerName, ownerEmail, googleUrl, color })
         });
-        if (!res.ok) throw new Error((await res.json()).error);
+        const clientData = await res.json();
+        if (!res.ok) throw new Error(clientData.error || 'Failed to add client');
+        
+        // Send Welcome Email via FormSubmit directly from the browser
+        const reviewLink = `${window.location.origin}/review/${clientData.id}`;
+        await fetch(`https://formsubmit.co/ajax/${ownerEmail}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            _subject: `Welcome to Upranko, ${name}! 🎉`,
+            Greeting: `Hi ${ownerName || 'there'},`,
+            Message: `Welcome to Upranko! Your business, ${name}, is now fully set up on our Smart Review Filtering System.`,
+            "Your Smart Review Link": reviewLink,
+            "How it works": "4-5 Stars: Customers go to Google. 1-3 Stars: Customers are asked for private feedback which gets emailed directly to you and is never posted publicly.",
+            _template: 'box'
+          })
+        }).catch(err => console.error("FormSubmit Error:", err));
+
         toast('Client added successfully!', 'success');
         ['f-name', 'f-cat', 'f-owner', 'f-email', 'f-url'].forEach(id => document.getElementById(id).value = '');
         renderColorSwatches();

@@ -296,22 +296,8 @@ app.post('/api/clients', async (req, res) => {
   db.clients.push(client);
   await writeDB(db);
 
-  // Send Welcome Email
-  const transporter = createTransporter();
-  if (transporter) {
-    const baseUrl = process.env.BASE_URL || `http://${req.headers.host || 'localhost:' + (process.env.PORT || 3000)}`;
-    try {
-      await transporter.sendMail({
-        from: `"Upranko" <${process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@upranko.com'}>`,
-        to: client.ownerEmail,
-        subject: `Welcome to Upranko, ${client.name}! 🎉`,
-        html: buildWelcomeEmailHTML(client, baseUrl)
-      });
-      console.log(`Welcome email sent to ${client.ownerEmail}`);
-    } catch (e) {
-      console.error("Welcome email failed to send:", e);
-    }
-  }
+  // Welcome Email is now handled directly by the frontend (via FormSubmit) 
+  // to bypass Vercel datacenter IP email blocking and SMTP setup requirements.
 
   res.json(client);
 });
