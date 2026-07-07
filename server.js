@@ -195,6 +195,69 @@ function buildEmailHTML(client, report) {
 </html>`;
 }
 
+function buildWelcomeEmailHTML(client, baseUrl) {
+  const reviewLink = `${baseUrl}/review/${client.id}`;
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#F5F5F0;font-family:'Segoe UI',Arial,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#F5F5F0;padding:32px 16px">
+<tr><td align="center">
+<table width="520" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #E5E7EB">
+
+  <!-- Header -->
+  <tr><td style="background:linear-gradient(135deg,#10B981,#059669);padding:24px 32px;text-align:center">
+    <div style="font-size:28px;font-weight:800;color:#fff;letter-spacing:-0.5px">Upranko</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:4px">Welcome to the Platform</div>
+  </td></tr>
+
+  <!-- Greeting -->
+  <tr><td style="padding:32px 32px 16px">
+    <div style="font-size:20px;font-weight:700;color:#111827">Hi ${client.ownerName || 'there'},</div>
+    <div style="font-size:15px;color:#4B5563;line-height:1.6;margin-top:12px">
+      Welcome to Upranko! Your business, <strong style="color:#111827">${client.name}</strong>, is now fully set up on our Smart Review Filtering System.
+    </div>
+  </td></tr>
+
+  <!-- Next Steps -->
+  <tr><td style="padding:16px 32px">
+    <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:24px;text-align:center">
+      <div style="font-size:12px;color:#166534;font-weight:700;text-transform:uppercase;letter-spacing:0.06em">Your Smart Review Link</div>
+      <div style="margin:16px 0">
+        <a href="${reviewLink}" style="display:inline-block;background:#10B981;color:#fff;text-decoration:none;font-weight:600;padding:12px 24px;border-radius:8px;font-size:15px;box-shadow:0 2px 4px rgba(16,185,129,0.3)">View Your Review Page</a>
+      </div>
+      <div style="font-size:13px;color:#15803D;line-height:1.6">
+        Share this link or the QR code with your customers to start collecting 5-star Google Reviews while keeping negative feedback completely private.
+      </div>
+    </div>
+  </td></tr>
+
+  <!-- How it works -->
+  <tr><td style="padding:16px 32px 24px">
+    <div style="font-size:15px;color:#111827;font-weight:700;margin-bottom:12px">How it works:</div>
+    <div style="font-size:14px;color:#4B5563;line-height:1.6">
+      <ul style="margin:0;padding-left:20px">
+        <li style="margin-bottom:8px"><strong style="color:#F59E0B">4-5 Stars:</strong> Customers are instantly taken to Google to post their review.</li>
+        <li><strong style="color:#EF4444">1-3 Stars:</strong> Customers are asked for private feedback which gets emailed <strong>directly to you</strong> and is never posted publicly.</li>
+      </ul>
+    </div>
+  </td></tr>
+
+  <!-- Footer -->
+  <tr><td style="background:#F9FAFB;padding:18px 32px;border-top:1px solid #F3F4F6">
+    <div style="font-size:12px;color:#9CA3AF;text-align:center;line-height:1.6">
+      Powered by <strong style="color:#10B981">Upranko</strong> — Smart Review Filtering System<br>
+      This email was sent to ${client.ownerEmail}.
+    </div>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
 // ─── API Routes ───────────────────────────────────────────────────────────────
 
 // Get all clients
@@ -232,6 +295,24 @@ app.post('/api/clients', async (req, res) => {
   };
   db.clients.push(client);
   await writeDB(db);
+
+  // Send Welcome Email
+  const transporter = createTransporter();
+  if (transporter) {
+    const baseUrl = process.env.BASE_URL || `http://${req.headers.host || 'localhost:' + (process.env.PORT || 3000)}`;
+    try {
+      await transporter.sendMail({
+        from: `"Upranko" <${process.env.SMTP_USER || process.env.GMAIL_USER || 'noreply@upranko.com'}>`,
+        to: client.ownerEmail,
+        subject: `Welcome to Upranko, ${client.name}! 🎉`,
+        html: buildWelcomeEmailHTML(client, baseUrl)
+      });
+      console.log(`Welcome email sent to ${client.ownerEmail}`);
+    } catch (e) {
+      console.error("Welcome email failed to send:", e);
+    }
+  }
+
   res.json(client);
 });
 
